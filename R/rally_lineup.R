@@ -48,8 +48,7 @@ prepare_lineup <- function(good_data, evil_data){
   group_size <- row_size / 10
 
   # generate a grouping id that counts from 1 to 10, randomly
-  # group_id <- sample(rep(1:10, each = group_size), row_size)
-  group_id <- rep(1:10, each = group_size)
+  group_id <- sample(rep(1:10, each = group_size), row_size)
 
   evil_lineup <- evil_samples %>%
     dplyr::mutate(group = group_id) %>%
@@ -58,10 +57,9 @@ prepare_lineup <- function(good_data, evil_data){
     dplyr::mutate(Iteration = 1:n()) %>%
     dplyr::ungroup()
 
-  # group_id <- sample(rep(1:10, each = group_size),row_size)
+  group_id <- sample(rep(1:10, each = group_size),row_size)
 
-  # good_lineup <- evil_samples %>%
-  good_lineup <- good_samples %>%
+  good_lineup <- evil_samples %>%
     dplyr::mutate(group = group_id) %>%
     add_good() %>%
     dplyr::group_by(group) %>%
@@ -92,23 +90,14 @@ finalise_lineup <- function(prepared_lineup_data){
   good_group_id <- sample(group_ids,1)
 
   evil_group_id <- group_ids[-good_group_id]
-  
-  good_lineup_data <- prepared_lineup_data %>%
-      dplyr::filter(alignment == "good",
-                    group %in% good_group_id)
-  
-  evil_lineup_data <- prepared_lineup_data %>%
-      dplyr::filter(alignment == "evil",
-                    group %in% evil_group_id)
 
-  mcmc_lineup_data <- dplyr::bind_rows(good_lineup_data,evil_lineup_data)
-  # mcmc_lineup_data <- prepared_lineup_data %>%
-  #   dplyr::filter(alignment == "good",
-  #          group %in% good_group_id) %>%
-  #   dplyr::bind_rows({
-  #     prepared_lineup_data %>%
-  #       dplyr::filter(alignment == "evil",
-  #              group %in% evil_group_id)})
+  mcmc_lineup_data <- prepared_lineup_data %>%
+    dplyr::filter(alignment == "good",
+           group %in% good_group_id) %>%
+    dplyr::bind_rows({
+      prepared_lineup_data %>%
+        dplyr::filter(alignment == "evil",
+               group %in% evil_group_id)})
 
   list(mcmc_lineup_data = mcmc_lineup_data,
        good_group_id = good_group_id,

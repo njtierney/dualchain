@@ -16,8 +16,8 @@ gg_lineup_trace <- function(data){
 
   return(invisible(list(good_group_id = lineup_info$good_group_id,
                         evil_group_id = lineup_info$evil_group_id,
-                        plot = plot,
-                        lineup_data = lineup_info)))
+                        lineup_data = lineup_info,
+                        plot = plot)))
 }
 
 #' @export
