@@ -1,9 +1,7 @@
-
-
 #' @export
-prepare_data <- function(good_mcmc_list,
-                         evil_mcmc_list,
-                         n_chain = 1){
+prepare_raw_lineup <- function(good_mcmc_list,
+                               evil_mcmc_list,
+                               n_chain = 1){
 
   # shave parameters down ---------------------------------------------------
   which_param_worst <- least_converged_param(evil_mcmc_list)
@@ -32,9 +30,14 @@ prepare_data <- function(good_mcmc_list,
   good_lineup <- repartition_iterations(good_mcmc_list)
 
   suppressWarnings({
-  lineup_good_evil <- dplyr::bind_rows(good_lineup, evil_lineup)
+  raw_lineup <- dplyr::bind_rows(good_lineup, evil_lineup)
   })
 
+  raw_lineup
+
+}
+
+add_random_groups_and_facets <- function(raw_lineup){
   # choose partition groups ---------------------------------------------------
   # Identify the IDs for the good and evil groups
   group_ids <- 1:10
@@ -42,21 +45,19 @@ prepare_data <- function(good_mcmc_list,
   evil_group_position_chain <- group_ids[-good_group_position_chain]
 
   # choose the groups
-  mcmc_lineup_data <-
-  lineup_good_evil %>%
+  mcmc_lineup_data <- raw_lineup %>%
     dplyr::filter(alignment == "good",
                   chain_group %in% good_group_position_chain) %>%
     dplyr::bind_rows({
-      lineup_good_evil %>%
+      raw_lineup %>%
         dplyr::filter(alignment == "evil",
                       chain_group %in% evil_group_position_chain)})
 
-
   # add the facet groups ------------------------------------------------------
-
   facet_ids <- sample(x = 1:10,
                       size = 10,
                       replace = FALSE)
+
   mcmc_lineup_data <- mcmc_lineup_data %>%
     dplyr::group_by(chain_group) %>%
     tidyr::nest() %>%
@@ -85,6 +86,30 @@ generate_mcmc_plot <- function(good_mcmc_list,
 
 }
 
+
+#' @export
+return_shiny_closure_thing <- function(good_mcmc,
+                                       bad_mcmc,
+                                       n_chain = 1,
+                                       plot_type = "trace"){
+
+  raw_data <- prepare_raw_lineup(good_mcmc_list = good_mcmc,
+                                 evil_mcmc_list = bad_mcmc,
+                                 n_chain = 1)
+
+  data_lineup <- add_random_groups_and_facets(raw_data)
+
+  lineup_solution <- retrieve_lineup_solution(data_lineup)
+
+  plot <- mcmc_diagnostic_plot(data_lineup, plot_type = "trace")
+
+  return(
+    function(){
+      list(solution = lineup_solution,
+           plot = plot)
+    }
+  )
+}
 
 
 # # code to generate the experimental design
