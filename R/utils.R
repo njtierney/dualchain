@@ -21,6 +21,7 @@ repartition_iterations <- function(mcmc_df){
     dplyr::ungroup()
 }
 
+#' @export
 retrieve_lineup_solution <- function(mcmc_lineup_data){
   mcmc_lineup_data %>%
     dplyr::select(chain_group,

@@ -37,7 +37,8 @@ prepare_raw_lineup <- function(good_mcmc_list,
 
 }
 
-add_random_groups_and_facets <- function(raw_lineup){
+#'@export
+add_groups_and_facets <- function(raw_lineup){
   # choose partition groups ---------------------------------------------------
   # Identify the IDs for the good and evil groups
   group_ids <- 1:10
@@ -68,27 +69,9 @@ add_random_groups_and_facets <- function(raw_lineup){
 
 }
 
-#' @export
-generate_mcmc_plot <- function(good_mcmc_list,
-                               evil_mcmc_list,
-                               plot_type = "trace",
-                               n_chain = 1,
-                               path){
-
-  prepared_data <- prepare_data(good_mcmc_list,
-                                evil_mcmc_list,
-                                n_chain = n_chain)
-
-  lineup_solution <- retrieve_lineup_solution(prepared_data)
-
-  the_plot <- mcmc_diagnostic_plot(data = prepared_data,
-                                   plot_type = plot_type)
-
-}
-
 
 #' @export
-return_shiny_closure_thing <- function(good_mcmc,
+generate_experiment <- function(good_mcmc,
                                        bad_mcmc,
                                        n_chain = 1,
                                        plot_type = "trace"){
@@ -97,7 +80,7 @@ return_shiny_closure_thing <- function(good_mcmc,
                                  evil_mcmc_list = bad_mcmc,
                                  n_chain = 1)
 
-  data_lineup <- add_random_groups_and_facets(raw_data)
+  data_lineup <- add_groups_and_facets(raw_data)
 
   lineup_solution <- retrieve_lineup_solution(data_lineup)
 

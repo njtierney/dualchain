@@ -15,7 +15,7 @@
 #'     of mixture models to fit. sample_eyes - the samples of the eyes model
 #'     extra_eyes - the samples of the extra samples we take at the end
 #'
-#' @export
+
 #'
 #' @examples
 #'
@@ -33,6 +33,7 @@
 #'
 #'
 #' }
+#' @export
 mcmc_generator <- function(max_mixtures,
                            burn_in,
                            samples,

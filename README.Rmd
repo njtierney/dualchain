@@ -1,0 +1,104 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-"
+)
+```
+
+# dualchain
+
+The goal of dualchain is to help create good and bad MCMC samples for an upcoming experiment
+
+## Installation
+
+You can install dualchain from github with:
+
+```{r gh-installation, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("njtierney/dualchain")
+```
+
+## Example
+
+This is mainly for Miles:
+
+Create the samples
+```{r run-samples}
+library(dualchain)
+lawful_good <- mcmc_generator(max_mixtures = 2,
+                              burn_in = 100,
+                              samples = 100,
+                              extra_sample = 1000)
+
+chaotic_evil <- mcmc_generator(max_mixtures = 10,
+                               burn_in = 100,
+                               samples = 100,
+                               extra_sample = 1000)
+
+```
+
+Create the raw lineup data
+```{r raw-data}
+
+raw_data <- prepare_raw_lineup(good_mcmc_list = lawful_good$extra_eyes,
+                               evil_mcmc_list = chaotic_evil$extra_eyes,
+                               n_chain = 1)
+raw_data
+
+```
+
+Create the lineup data
+```{r create-lineup}
+
+data_lineup <- add_groups_and_facets(raw_data)
+
+data_lineup
+
+```
+
+create the solution
+
+```{r create-solution}
+
+lineup_solution <- retrieve_lineup_solution(data_lineup)
+lineup_solution
+```
+
+Create the plots
+
+The regular `gg_` plots return a plot invisibly
+
+```{r show-plots}
+ac <- gg_mcmc_autocor(data_lineup)
+den <- gg_mcmc_density(data_lineup)
+tra <- gg_mcmc_trace(data_lineup)
+
+ac
+den
+tra
+```
+
+You can also call them directly like so:
+```{r mcmc-diagnostic-plot}
+mcmc_diagnostic_plot(data_lineup, plot_type = "trace")
+```
+
+And here is the list to pass to shiny
+
+```{r generate-experiment}
+clos <- generate_experiment(good_mcmc = lawful_good$extra_eyes,
+                            bad_mcmc = chaotic_evil$extra_eyes,
+                            n_chain = 1,
+                            plot_type = "trace")
+
+clos()
+
+```
+

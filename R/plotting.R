@@ -1,3 +1,4 @@
+#' @export
 gg_mcmc_trace <- function(data){
 
   plot <- ggplot2::ggplot(data,
@@ -12,6 +13,7 @@ gg_mcmc_trace <- function(data){
 
 }
 
+#' @export
 gg_mcmc_density <- function(data){
 
   plot <- ggplot2::ggplot(data,
@@ -26,6 +28,7 @@ gg_mcmc_density <- function(data){
 
 }
 
+#' @export
 gg_mcmc_autocor <- function(data){
 
   num_lag <- 50

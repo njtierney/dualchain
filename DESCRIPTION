@@ -1,5 +1,5 @@
 Package: dualchain
-Version: 0.0.0.9000
+Version: 0.0.0.9100
 Title: Generates Good and Bad MCMC Samples
 Description: This is like the lineup method, but for Bayesian models.
 Authors@R: person("Nicholas", "Tierney", email = "nicholas.tierney@gmail.com", role = c("aut", "cre"))
