@@ -33,13 +33,13 @@ Create the samples
 ```{r run-samples}
 library(dualchain)
 lawful_good <- mcmc_generator(max_mixtures = 2,
-                              burn_in = 100,
-                              samples = 100,
+                              burn_in = 1000,
+                              samples = 1000,
                               extra_sample = 1000)
 
 chaotic_evil <- mcmc_generator(max_mixtures = 10,
-                               burn_in = 100,
-                               samples = 100,
+                               burn_in = 1000,
+                               samples = 1000,
                                extra_sample = 1000)
 
 ```
@@ -89,6 +89,8 @@ You can also call them directly like so:
 ```{r mcmc-diagnostic-plot}
 mcmc_diagnostic_plot(data_lineup, plot_type = "trace")
 ```
+
+# passing to shiny
 
 And here is the list to pass to shiny
 

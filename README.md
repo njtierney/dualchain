@@ -24,8 +24,8 @@ Create the samples
 ``` r
 library(dualchain)
 lawful_good <- mcmc_generator(max_mixtures = 2,
-                              burn_in = 100,
-                              samples = 100,
+                              burn_in = 1000,
+                              samples = 1000,
                               extra_sample = 1000)
 #> Compiling model graph
 #>    Resolving undeclared variables
@@ -38,8 +38,8 @@ lawful_good <- mcmc_generator(max_mixtures = 2,
 #> Initializing model
 
 chaotic_evil <- mcmc_generator(max_mixtures = 10,
-                               burn_in = 100,
-                               samples = 100,
+                               burn_in = 1000,
+                               samples = 1000,
                                extra_sample = 1000)
 #> Compiling model graph
 #>    Resolving undeclared variables
@@ -63,16 +63,16 @@ raw_data
 #> # A tibble: 2,000 x 6
 #>    Iteration Chain Parameter value alignment chain_group
 #>        <int> <int> <chr>     <dbl> <chr>           <int>
-#>  1         1     1 lambda[1]  538. good                1
-#>  2         2     1 lambda[1]  538. good                1
+#>  1         1     1 lambda[1]  537. good                1
+#>  2         2     1 lambda[1]  537. good                1
 #>  3         3     1 lambda[1]  537. good                1
-#>  4         4     1 lambda[1]  538. good                1
-#>  5         5     1 lambda[1]  537. good                1
+#>  4         4     1 lambda[1]  537. good                1
+#>  5         5     1 lambda[1]  538. good                1
 #>  6         6     1 lambda[1]  537. good                1
-#>  7         7     1 lambda[1]  537. good                1
-#>  8         8     1 lambda[1]  536. good                1
+#>  7         7     1 lambda[1]  538. good                1
+#>  8         8     1 lambda[1]  538. good                1
 #>  9         9     1 lambda[1]  537. good                1
-#> 10        10     1 lambda[1]  536. good                1
+#> 10        10     1 lambda[1]  537. good                1
 #> # ... with 1,990 more rows
 ```
 
@@ -86,16 +86,16 @@ data_lineup
 #> # A tibble: 1,000 x 7
 #>    chain_group facet Iteration Chain Parameter value alignment
 #>          <int> <int>     <int> <int> <chr>     <dbl> <chr>    
-#>  1           2     9         1     1 lambda[1]  537. good     
-#>  2           2     9         2     1 lambda[1]  537. good     
-#>  3           2     9         3     1 lambda[1]  538. good     
-#>  4           2     9         4     1 lambda[1]  537. good     
-#>  5           2     9         5     1 lambda[1]  536. good     
-#>  6           2     9         6     1 lambda[1]  537. good     
-#>  7           2     9         7     1 lambda[1]  537. good     
-#>  8           2     9         8     1 lambda[1]  538. good     
-#>  9           2     9         9     1 lambda[1]  538. good     
-#> 10           2     9        10     1 lambda[1]  538. good     
+#>  1           1     4         1     1 lambda[1]  537. good     
+#>  2           1     4         2     1 lambda[1]  537. good     
+#>  3           1     4         3     1 lambda[1]  537. good     
+#>  4           1     4         4     1 lambda[1]  537. good     
+#>  5           1     4         5     1 lambda[1]  538. good     
+#>  6           1     4         6     1 lambda[1]  537. good     
+#>  7           1     4         7     1 lambda[1]  538. good     
+#>  8           1     4         8     1 lambda[1]  538. good     
+#>  9           1     4         9     1 lambda[1]  537. good     
+#> 10           1     4        10     1 lambda[1]  537. good     
 #> # ... with 990 more rows
 ```
 
@@ -108,16 +108,16 @@ lineup_solution
 #> # A tibble: 10 x 3
 #>    chain_group facet alignment
 #>          <int> <int> <chr>    
-#>  1           2     9 good     
-#>  2           1    10 evil     
-#>  3           3     3 evil     
-#>  4           4     4 evil     
-#>  5           5     5 evil     
+#>  1           1     4 good     
+#>  2           2     2 evil     
+#>  3           3     1 evil     
+#>  4           4     3 evil     
+#>  5           5     7 evil     
 #>  6           6     8 evil     
-#>  7           7     7 evil     
+#>  7           7    10 evil     
 #>  8           8     6 evil     
-#>  9           9     2 evil     
-#> 10          10     1 evil
+#>  9           9     5 evil     
+#> 10          10     9 evil
 ```
 
 Create the plots
@@ -154,6 +154,8 @@ mcmc_diagnostic_plot(data_lineup, plot_type = "trace")
 
 ![](man/figures/README-mcmc-diagnostic-plot-1.png)<!-- -->
 
+# passing to shiny
+
 And here is the list to pass to shiny
 
 ``` r
@@ -167,16 +169,16 @@ clos()
 #> # A tibble: 10 x 3
 #>    chain_group facet alignment
 #>          <int> <int> <chr>    
-#>  1           6     1 good     
-#>  2           1     4 evil     
-#>  3           2     2 evil     
-#>  4           3     5 evil     
-#>  5           4     6 evil     
-#>  6           5     7 evil     
-#>  7           7     3 evil     
-#>  8           8    10 evil     
-#>  9           9     8 evil     
-#> 10          10     9 evil     
+#>  1           9     7 good     
+#>  2           1     9 evil     
+#>  3           2     6 evil     
+#>  4           3     4 evil     
+#>  5           4     8 evil     
+#>  6           5    10 evil     
+#>  7           6     5 evil     
+#>  8           7     2 evil     
+#>  9           8     3 evil     
+#> 10          10     1 evil     
 #> 
 #> $plot
 ```
