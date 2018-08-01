@@ -69,29 +69,33 @@ add_groups_and_facets <- function(raw_lineup){
 
 }
 
-
 #' @export
-generate_experiment <- function(good_mcmc,
-                                       bad_mcmc,
-                                       n_chain = 1,
-                                       plot_type = "trace"){
+experiment_factory <- function(good_mcmc,
+                               bad_mcmc,
+                               n_chain = 1,
+                               plot_type = "trace"){
 
-  raw_data <- prepare_raw_lineup(good_mcmc_list = good_mcmc,
-                                 evil_mcmc_list = bad_mcmc,
-                                 n_chain = 1)
+  generate_experiment <- function(good_mcmc,
+                                  bad_mcmc,
+                                  n_chain = 1,
+                                  plot_type = "trace"){
 
-  data_lineup <- add_groups_and_facets(raw_data)
+    raw_data <- prepare_raw_lineup(good_mcmc_list = good_mcmc,
+                                   evil_mcmc_list = bad_mcmc,
+                                   n_chain = 1)
 
-  lineup_solution <- retrieve_lineup_solution(data_lineup)
+    data_lineup <- add_groups_and_facets(raw_data)
 
-  plot <- mcmc_diagnostic_plot(data_lineup, plot_type = "trace")
+    lineup_solution <- retrieve_lineup_solution(data_lineup)
 
-  return(
-    function(){
+    plot <- mcmc_diagnostic_plot(data_lineup, plot_type = "trace")
+
+    return(
       list(solution = lineup_solution,
            plot = plot)
-    }
-  )
+    )
+  }
+
 }
 
 
