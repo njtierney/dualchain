@@ -72,23 +72,21 @@ add_groups_and_facets <- function(raw_lineup){
 #' @export
 experiment_factory <- function(good_mcmc,
                                bad_mcmc,
-                               n_chain = 1,
-                               plot_type = "trace"){
+                               n_chain = 1){
 
-  generate_experiment <- function(good_mcmc,
-                                  bad_mcmc,
-                                  n_chain = 1,
-                                  plot_type = "trace"){
+  generate_experiment <- function(plot_type){
+
+    if(missing(plot_type)) stop("plot_type must be either 'trace', 'density', or 'autocor'.")
 
     raw_data <- prepare_raw_lineup(good_mcmc_list = good_mcmc,
                                    evil_mcmc_list = bad_mcmc,
-                                   n_chain = 1)
+                                   n_chain = n_chain)
 
     data_lineup <- add_groups_and_facets(raw_data)
 
     lineup_solution <- retrieve_lineup_solution(data_lineup)
 
-    plot <- mcmc_diagnostic_plot(data_lineup, plot_type = "trace")
+    plot <- mcmc_diagnostic_plot(data_lineup, plot_type)
 
     return(
       list(solution = lineup_solution,
