@@ -52,7 +52,7 @@ gg_mcmc_autocor <- function(data){
 mcmc_diagnostic_plot <- function(data,
                                  plot_type = "trace"){
   stopifnot(plot_type == "trace" |
-              plot_type == "density" | plot_type == "autcor")
+              plot_type == "density" | plot_type == "autocor")
   if (plot_type == "trace") {
     mcmc_diagnostic_plot <- gg_mcmc_trace(data)
   }

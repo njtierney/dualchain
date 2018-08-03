@@ -76,7 +76,9 @@ experiment_factory <- function(good_mcmc,
 
   generate_experiment <- function(plot_type){
 
-    if(missing(plot_type)) stop("plot_type must be either 'trace', 'density', or 'autocor'.")
+    if (missing(plot_type)) {
+      stop("plot_type must be either 'trace', 'density', or 'autocor'.")
+    }
 
     raw_data <- prepare_raw_lineup(good_mcmc_list = good_mcmc,
                                    evil_mcmc_list = bad_mcmc,
