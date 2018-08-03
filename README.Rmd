@@ -4,7 +4,7 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, echo = FALSE}
+```{r setup, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -94,13 +94,12 @@ mcmc_diagnostic_plot(data_lineup, plot_type = "trace")
 
 And here is the list to pass to shiny
 
-```{r generate-experiment}
-clos <- generate_experiment(good_mcmc = lawful_good$extra_eyes,
-                            bad_mcmc = chaotic_evil$extra_eyes,
-                            n_chain = 1,
-                            plot_type = "trace")
+```{r exp-gen-examples}
+exp_gen <- experiment_factory(good_mcmc = lawful_good$extra_eyes,
+                              bad_mcmc = chaotic_evil$extra_eyes,
+                              n_chain = 1)
 
-clos()
-
+exp_gen(plot_type = "trace")
+exp_gen(plot_type = "autocor")
+exp_gen(plot_type = "density")
 ```
-

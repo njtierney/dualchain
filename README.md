@@ -63,16 +63,16 @@ raw_data
 #> # A tibble: 2,000 x 6
 #>    Iteration Chain Parameter value alignment chain_group
 #>        <int> <int> <chr>     <dbl> <chr>           <int>
-#>  1         1     1 lambda[1]  537. good                1
-#>  2         2     1 lambda[1]  537. good                1
-#>  3         3     1 lambda[1]  537. good                1
-#>  4         4     1 lambda[1]  537. good                1
-#>  5         5     1 lambda[1]  538. good                1
-#>  6         6     1 lambda[1]  537. good                1
-#>  7         7     1 lambda[1]  538. good                1
-#>  8         8     1 lambda[1]  538. good                1
-#>  9         9     1 lambda[1]  537. good                1
-#> 10        10     1 lambda[1]  537. good                1
+#>  1         1     1 lambda[1]  536. good                1
+#>  2         2     1 lambda[1]  536. good                1
+#>  3         3     1 lambda[1]  535. good                1
+#>  4         4     1 lambda[1]  535. good                1
+#>  5         5     1 lambda[1]  537. good                1
+#>  6         6     1 lambda[1]  535. good                1
+#>  7         7     1 lambda[1]  537. good                1
+#>  8         8     1 lambda[1]  536. good                1
+#>  9         9     1 lambda[1]  536. good                1
+#> 10        10     1 lambda[1]  536. good                1
 #> # ... with 1,990 more rows
 ```
 
@@ -86,16 +86,16 @@ data_lineup
 #> # A tibble: 1,000 x 7
 #>    chain_group facet Iteration Chain Parameter value alignment
 #>          <int> <int>     <int> <int> <chr>     <dbl> <chr>    
-#>  1           1     4         1     1 lambda[1]  537. good     
-#>  2           1     4         2     1 lambda[1]  537. good     
-#>  3           1     4         3     1 lambda[1]  537. good     
-#>  4           1     4         4     1 lambda[1]  537. good     
-#>  5           1     4         5     1 lambda[1]  538. good     
-#>  6           1     4         6     1 lambda[1]  537. good     
-#>  7           1     4         7     1 lambda[1]  538. good     
-#>  8           1     4         8     1 lambda[1]  538. good     
-#>  9           1     4         9     1 lambda[1]  537. good     
-#> 10           1     4        10     1 lambda[1]  537. good     
+#>  1           3     2         1     1 lambda[1]  536. good     
+#>  2           3     2         2     1 lambda[1]  537. good     
+#>  3           3     2         3     1 lambda[1]  538. good     
+#>  4           3     2         4     1 lambda[1]  538. good     
+#>  5           3     2         5     1 lambda[1]  538. good     
+#>  6           3     2         6     1 lambda[1]  541. good     
+#>  7           3     2         7     1 lambda[1]  539. good     
+#>  8           3     2         8     1 lambda[1]  539. good     
+#>  9           3     2         9     1 lambda[1]  538. good     
+#> 10           3     2        10     1 lambda[1]  537. good     
 #> # ... with 990 more rows
 ```
 
@@ -108,16 +108,16 @@ lineup_solution
 #> # A tibble: 10 x 3
 #>    chain_group facet alignment
 #>          <int> <int> <chr>    
-#>  1           1     4 good     
-#>  2           2     2 evil     
-#>  3           3     1 evil     
-#>  4           4     3 evil     
+#>  1           3     2 good     
+#>  2           1     5 evil     
+#>  3           2     1 evil     
+#>  4           4     9 evil     
 #>  5           5     7 evil     
-#>  6           6     8 evil     
-#>  7           7    10 evil     
-#>  8           8     6 evil     
-#>  9           9     5 evil     
-#> 10          10     9 evil
+#>  6           6     4 evil     
+#>  7           7     6 evil     
+#>  8           8     8 evil     
+#>  9           9    10 evil     
+#> 10          10     3 evil
 ```
 
 Create the plots
@@ -159,28 +159,71 @@ mcmc_diagnostic_plot(data_lineup, plot_type = "trace")
 And here is the list to pass to shiny
 
 ``` r
-clos <- generate_experiment(good_mcmc = lawful_good$extra_eyes,
-                            bad_mcmc = chaotic_evil$extra_eyes,
-                            n_chain = 1,
-                            plot_type = "trace")
+exp_gen <- experiment_factory(good_mcmc = lawful_good$extra_eyes,
+                              bad_mcmc = chaotic_evil$extra_eyes,
+                              n_chain = 1)
 
-clos()
+exp_gen(plot_type = "trace")
 #> $solution
 #> # A tibble: 10 x 3
 #>    chain_group facet alignment
 #>          <int> <int> <chr>    
-#>  1           9     7 good     
-#>  2           1     9 evil     
-#>  3           2     6 evil     
-#>  4           3     4 evil     
-#>  5           4     8 evil     
-#>  6           5    10 evil     
-#>  7           6     5 evil     
-#>  8           7     2 evil     
-#>  9           8     3 evil     
-#> 10          10     1 evil     
+#>  1           9     2 good     
+#>  2           1     7 evil     
+#>  3           2     9 evil     
+#>  4           3     5 evil     
+#>  5           4     3 evil     
+#>  6           5     8 evil     
+#>  7           6     6 evil     
+#>  8           7     1 evil     
+#>  9           8     4 evil     
+#> 10          10    10 evil     
 #> 
 #> $plot
 ```
 
-![](man/figures/README-generate-experiment-1.png)<!-- -->
+![](man/figures/README-exp-gen-examples-1.png)<!-- -->
+
+``` r
+exp_gen(plot_type = "autocor")
+#> $solution
+#> # A tibble: 10 x 3
+#>    chain_group facet alignment
+#>          <int> <int> <chr>    
+#>  1           4     4 good     
+#>  2           1     5 evil     
+#>  3           2     3 evil     
+#>  4           3     1 evil     
+#>  5           5     8 evil     
+#>  6           6     9 evil     
+#>  7           7    10 evil     
+#>  8           8     6 evil     
+#>  9           9     7 evil     
+#> 10          10     2 evil     
+#> 
+#> $plot
+```
+
+![](man/figures/README-exp-gen-examples-2.png)<!-- -->
+
+``` r
+exp_gen(plot_type = "density")
+#> $solution
+#> # A tibble: 10 x 3
+#>    chain_group facet alignment
+#>          <int> <int> <chr>    
+#>  1           8     2 good     
+#>  2           1     8 evil     
+#>  3           2     5 evil     
+#>  4           3    10 evil     
+#>  5           4     9 evil     
+#>  6           5     7 evil     
+#>  7           6     3 evil     
+#>  8           7     4 evil     
+#>  9           9     1 evil     
+#> 10          10     6 evil     
+#> 
+#> $plot
+```
+
+![](man/figures/README-exp-gen-examples-3.png)<!-- -->
